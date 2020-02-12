@@ -61,3 +61,35 @@ var pow = arr.map(x => x * x);
 console.log(pow); // [1, 4 ,9]
 
 ```
+
+ ### 3.this
+ -------------
+
+ function 키워드로 생성한 일반 함수와 화살표 함수의 가장 큰 차이점은 this다
+
+ #### 3-1 일반 함수의 this
+
+ 자바스크립트의 경우 함수 호출방식에 의해 this에 바인딩할 어떤 객체가 동적으로 결정된다. 다시말해 함수를 선언할때 this에 바인딩할 객체가 정적으로 결정되는것이 아니고, 함수를 호출할 때 함수가 어떻게 호출 되었는지에 따라 this에 바인딩할 객체가 동적으로 결정된다
+
+ 콜백 함수 내부의 this는 전역 객체 window를 가리킨다.
+
+```
+function Prefixer(prefix) {
+    this.prefix = prefix;
+}
+
+Prefixer.prototype.prefixArray = function (arr) {
+    // (A)
+    return arr.map(function (x) {
+        return this.prefix + ' ' + x; // (B)
+    });
+};
+
+var pre = new Prefixer('Hi');
+console.log(pre.prerfixArray(['Lee','Kim']));
+
+```
+
+ (A) 지점에서의 this는 생성자 함수 Prefixer가 생성한 객체 , 즉 생성자 함수의 인스턴스 (위 예제의 경우 pre)이다.
+
+ (B) 지점에서 사용한 this는 아마도 생성자 함수  Prefixer가 생성한 객체(위 예제의 경우 pre)일것으로 기대하겠지만, 이곳에서 this는 전역객체 window를 가리킨다. 이는 생성자 함수와 객체의 메소드를 제외한 모든 함수 (내부함수 , 콜백함수 포함) 내부의 this는 전역 객체를 가리키기 때문이다. 
