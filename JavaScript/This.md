@@ -180,3 +180,120 @@ console.log(person.getName()) // john
 console.log(newPerson.getName()) //chirs
 
  ```
+
+
+ ## bind , arrow function 
+
+ 생성자 함수 안에서 또 다른 함수가 있는경우
+
+ ```
+ function Family(firstName) {
+     this.firstName = firstName
+     const names = ['bill' , 'mark', 'steve' ]
+     names.map(function(lastName , index) {
+         console.log(lastName + ' ' + this.firstName)
+         console.log(this)
+     })
+ }
+ const kims = new Family('kim')
+ // bill undefined
+ // window
+ // mark undefined
+ // window
+ // steve undefined
+ // window
+ ```
+
+ Family 라는 생성자 함수 안에서 map 메서드를 호출합니다. map 메서드의 인자는 value 와 index를 인자로 가지는 새로운 함수입니다. 이를 **서브루틴** 이라 부르고, 이는 특별한 개념이아닌 자바스크립트에서 함수의 의미가 다양하기 때문에 단지 메서드가 아닌 함수와 구분하기 위한 용도로 서브루틴이라는 단어를 사용합니다.
+
+ 이 서브루틴에서는 lastName 들을 담은 names 배열의 map 메서드를 이용하여 lastName과 this의 firstName을 같이 출력하고자 합니다. 하지만 막상 실행을 해보면 예상과 다르게 출력됩니다. kim이 출력될 위치에 undefined가 출력되었습니다. 이는 map의 서브루틴에서 this 를 사용하는 것이 문제였습니다. this 가 실행 문맥이라고 했던것을 상기해보면 undefined 가 출력되는 이유를 짐작해볼 수 있습니다. map 메서드의 서브루틴은 호출될때 map 의 context(this)로 바인드 되지 않습니다. 바인드 되지 않았다는 것은 실행문맥이 전역이라는 것이고 실행문맥이 전역이란 말은 (비엄격모드에서) 서브루틴 내 this 가 window라는 것입니다.
+
+ 비슷한 다른 예제
+
+ ```
+ const testObj = {
+     outerFunc: function() {
+         function innerFunc() {
+             console.log(this) //window
+         }
+         innerFunc()
+     },
+ }
+ testObj.outerFunc()
+
+ ```
+
+ outherFunc 가 외부에서 실행(testObj.outerFunc())되면 this 는 testObj 입니다. 그리고 outerFunc 내부에서 innerFunc 가 호출할때는 그 어떤 문맥도 지정하지(바인드되지) 않았습니다. 전역 context(window)에서 실행되었다는 것이죠. 이게 바로 (비엄격모드에서) innerFunc 의 this 가 window 가 되는 이유 입니다.
+
+ 다시 이전의 생성자함수(Family)로 돌아갑니다 map메서드의 서브루틴에서 this가 window로 된다는것은 이미 위에서 설명했습니다. 하지만 생성자 함수 내의 특정 변수를 서브루틴 내에서 사용할수도 있습니다. 이때 실행문맥(this)을 Family로 지정하려면 간단하게는 별도의 상수(const)를 지정하면 됩니다.
+
+ ```
+function Family(firstName) {
+    this.firstName = firstName
+    const names = ['bill','mark', 'steve']
+    const that = this
+    names.map(function(value, index) {
+        console.log(value + ' ' + that.firstName)
+    })
+}
+const kims = new Family('kim')
+// bill kim
+// mark kim
+// steve kim
+
+
+ ```
+
+ 문제없이 이름들이 출력됩니다. 하지만 항상 that 이라는 상수를 만들어주면 귀찮습니다. 또한 만에하나 실수로 빼먹기라도 하면 어마어마한 문제가 발생할지도 모릅니다. 혹은 서브루틴 안에서 또다른 서브루틴을 사용할 수도 있습니다. 그 때는 anoterThat을 만들어야할까요 ? 이 문제를 해결하기위해 bind라는 메서드를 사용합니다
+
+ ```
+ function Faimly(firstName) {
+     this.firstName = firstName
+     const names = ['bill' , 'mark' , 'steve']
+     names.map(
+         function(value, index) {
+             console.log(value + ' ' + this.firstName)
+         }.bind(this)
+     )
+ }
+ const kims = new Faimly('kim')
+
+```
+
+ that을 쓸때 보다는 깔끔해졌습니다. 하지만 .bind(this) 도 항상 붙여줘야한다는 문제는 여전히 남아있습니다 . 이제 arrow function이 나올차례입니다.
+
+ ```
+ function Family(firstName) {
+     this.firstName = firstName
+     const names = ['bill' , 'mark' , 'steve']
+
+     names.map((value, index) => {
+         console.log(value + ' ' + this.firstName)
+     })
+ }
+
+ ```
+
+ 이제 that도 없고 , bind도 없습니다. 함수의 형태만 바꿔주면 모든게 해결됩니다. 그럼 일반 함수형태에서 arrow함수를 사용했을때 어떤 차이가 있을가요 ? arrow 함수 또한 ES6에서만 지원하기때문에 babel 사이트에서 변환해보겠습니다
+
+
+ ```
+ 'use strict'
+
+function Family(firstName) {
+  var _this = this
+
+  this.firstName = firstName
+  var names = ['bill', 'mark', 'steve']
+  names.map(function(value, index) {
+    console.log(value + ' ' + _this.firstName)
+  })
+}
+var kims = new Family('kim')
+```
+
+that 을 사용했을 때와 동일한 방법으로 트랜스파일 되네요. 미리 내부에서만 사용할 변수 _this를 만들어 두고, this 를 할당합니다. 그리고 _this를 사용하여 firstName 을 가져옵니다. arrow 함수는 호출 대상에 따라 실행문맥이 결정되는 것이 아닙니다.
+
+### 결론 
+
+this 는 어렵지 않습니다. 하지만, 타 언어와 다른 방식으로 사용되기에 주의해서 사용할 필요가 있습니다. 한가지만 기억하자면, this 는 누가 호출했느냐에 따라 결정된다는 것입니다. ES6 문법을 사용하면 this 를 사용할때 문제점을 완화할 수 있습니다. 예를들어, 서브루틴 내에서 바깥의 this 를 사용하려고 할때는 arrow function 을 이용하면 간단하게 해결할 수 있습니다.
