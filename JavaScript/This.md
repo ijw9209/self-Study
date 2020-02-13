@@ -297,3 +297,7 @@ that 을 사용했을 때와 동일한 방법으로 트랜스파일 되네요. �
 ### 결론 
 
 this 는 어렵지 않습니다. 하지만, 타 언어와 다른 방식으로 사용되기에 주의해서 사용할 필요가 있습니다. 한가지만 기억하자면, this 는 누가 호출했느냐에 따라 결정된다는 것입니다. ES6 문법을 사용하면 this 를 사용할때 문제점을 완화할 수 있습니다. 예를들어, 서브루틴 내에서 바깥의 this 를 사용하려고 할때는 arrow function 을 이용하면 간단하게 해결할 수 있습니다.
+
+출처 : <br/>
+1.[https://blueshw.github.io/2018/03/12/this/](https://blueshw.github.io/2018/03/12/this/)<br/>
+  2.[https://poiemaweb.com/js-this](https://poiemaweb.com/js-this)        
