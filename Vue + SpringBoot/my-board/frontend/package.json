@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "path": "^0.12.7",
+    "request": "^2.88.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
