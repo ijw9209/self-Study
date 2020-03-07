@@ -42,7 +42,7 @@ function BBB() {}
 BBB.prototype = new AAA();
 
 var o = new BBB();
-document.write(o.ParentProp);
+document.write(o.ParentProp);  //result : 안녕
 ```
 
 AAA() 라는 생성자 함수가 생겼고 거기에는 prototype이라는 아내가 있다
