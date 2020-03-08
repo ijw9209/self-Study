@@ -4,11 +4,16 @@
 
 # 1. 프로그램 시스템의 변화
  1. None O/S 
+ 
  2. **batch processing system(일괄처리)** << 최초의 OS의 등장
- - resident monitor (cpu의 idle(cpu가 io를 실행할때 논다) 문제점때문에 개선)
+ - resident monitor 
+ 
+ 문제점 : cpu의 idle (cpu가 I/O를 실행할때 논다)
+ 
  3. **Multiprogramming System(다중 프로그래밍)** 
  - 메모리에 여러개의 프로그램을 올림 
- 문제점 : cpu가 하나라 , 여러사람이 동시에 쓰지못함
+ 문제점 : cpu가 하나라 , 여러사람이 동시에 쓰지못함C
+ 
  4. **Time-Sharing system(TSS) (시 공유 시스템)** << 현재사용
  ex) unix , Linux , windows x , 7 
  - cpu가 짧은시간에 한번씩 스위칭하며 할당해줌(강제 절환) ,

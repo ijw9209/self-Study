@@ -35,5 +35,7 @@ const arr2 = [4,5];
 arr1.splice(3, 0, ...arr2);
 console.log(arr1)  // [1 ,2 ,3 ,4 ,5 ,6]
 
-
 ```
+
+
++ 출처 : [https://mber.tistory.com/14](https://mber.tistory.com/14)
