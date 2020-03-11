@@ -164,3 +164,84 @@ a();
 ```
 
 실행결과는 5이다.
+
+## 6. let, const 
+
+위에서는 자바스크립트에서 변수를 선언하는방식은 var 뿐이였고,
+ES6로 넘어오면서 let과 const라는 새로운 선언방법이 생겼다.
+
+위의 var는 scope가 function-scope라고 했다.
+
+
+```js
+var foo = 'bar1';
+console.log(foo); // bar1
+
+if(true) {
+    var foo = 'bar2';
+    console.log(foo); //bar2
+}
+console.log(foo);   //bar2
+```
+중복선언을 했지만 별다른 에러를 발생시키지않고, 값마저 bar2로 나옴
+
+하지만,
+
+let과 const는 block-scope 라고 한다.
+유효 범위가 블록 , 즉 {}로 감싸진 범위라는 뜻이다.
+
+```js
+let foo = 'bar1';
+console.log(foo); // bar1
+
+if(true) {
+    let foo = 'bar2';
+    console.log(foo) // bar2
+}
+console.log(foo);   //bar1
+```
+
+위에서는 var를 사용한 경우와는 달리 if문밖의 foo와 if문안의 foo는 서로 다른 변수가 됨
+따라서 중복 선언으로 인한 에러도 발생하지 않음, if문이 닫히는시점에서 유효범위가 끝남
+
+
+```js
+let foo = 'bar1';
+console.log(foo);   // bar1
+
+if(true) {
+    console.log(foo)    //bar1
+    foo = 'bar2';
+    console.log(foo)    //bar2
+}
+
+console.log(foo);   // bar2
+
+```
+if문안에서 foo를 다시선언하면 정상적으로 호출도되고 값에변경에도 문제가없다.
+
+```js
+let foo = 'bar1';
+console.log(foo);   //bar1
+
+if(true) {
+    console.log(foo);
+  // Uncaught ReferenceError: foo is not defined
+
+    let foo = 'bar2';
+}
+
+console.log(foo);
+```
+이렇게하면 에러가 발생
+
+어떤 변수가 호출되었을때 블록안에 같은 이름의 변수가 없으면 상위 블록에서 선언된 같은 
+
+이름의 변수를 호출 하지만 블록안에서 let이나 const로 변수 선언이 있었다면,
+
+그 이름의 변수는 변수가 선언되기 이전까지 그 블록안에서 정의되지 않은 변수로 간주
+
+
+
+
+const 사용시 참초타입의 경우(array , object , function)의 경우는 const로 선언하는것이 바람직하다. 참조형은 const로 선언하더라도 멤버값을 조작하는것이가능
