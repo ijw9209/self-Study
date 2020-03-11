@@ -1,125 +1,166 @@
  ## 1.스코프란 ?
 
-
-스코프를 정의해보면 변수가 영향을 미치는 범위 혹은 변수의 유효범위 라고 할 수 있다.
+유효범위(Scope)는 변수의 수명을 의미한다
 
 ```js
-var a = 10;
-function scope1() {
-    a = 20;
-    console.log(a); //20
+var vscope = 'global';
+function fscope(){
+    alert(vscope);
 }
-scope1();
-console.log(a); //20
+fscope();   //global이 반환
+```
 
-var b = 10;
-function scope2() {
-    var b = 20;
-    console.log(b); //20
+전역변수 : 애플리케이션 전역에서 접근이 가능한 변수다. 어떤 함수 안에서도 그 변수에 접근 할 수있다.
+
+```js
+var vscope = 'global';
+function fscope() {
+    var vscope = 'local';
+    alert('함수안 ' + vscope);  // local
 }
-scope2();
-console.log(b); // 10
+fscope();
+alert('함수밖 ' + vscope);  //global
 
 ```
 
+지역변수의 유효범위는 함수 안이고 , 전역변수의 유효범위는 애플리케이션 전역인데,
 
-스코프를 깊게 체감하기위해서는 console.log의 입장해서 생각해봐야된다.
-
-## 2. 블록 스코프와 함수 스코프
-
-블록 스코프 : 중괄호{}로 감싸진 범위(if의 블록 {} , for의 블록 {}, function의 블록 {})
-함수 스코프 : 블록스코프중 function의 블록 {} 범위를 갖는 스코프 
-
-var 는 **함수스코프**내에서 유효함
-let,const는 **블록스코프**내에서 유효하다.
-
-## 3. 어떤 스코프를 참조할지 어떻게 판단할까?
-
-js 코드가 컴파일 되는 과정을 거치면 , 코드(token)가 렉싱되고 스코프에 변수목록 을 작성한다. 
-
-1. 렉싱
-
-![image](https://t1.daumcdn.net/cfile/tistory/99D5F8435D25FDCF29)
-
-우선 이코드에선 , 코드가 컴퓨터 입장에서 의미있는 조각(token)으로 나눠짐
-
-2. 스코프생성
-
-다음은 이 조각에 근거하여 컴파일러가 파싱,코드 생성을 수행하고 , 스코프가 변수 목록을 작성
-
-
-![image2](https://t1.daumcdn.net/cfile/tistory/9927B33A5D25FFC905)
-
-
-scope1과 scope2를 비교해보면 var 키워드가 있을때 스코프 영역에 목록이 생성됨
-
-이렇게 실행 준비를 마치고 엔진에 의해 실행
-
-3. scope1 , scope2 함수 내 a, b 할당이 일어남
-
-![image3](https://t1.daumcdn.net/cfile/tistory/99C4CC4B5D26064E04)
-
-console.log가 실행되기전 상황
-
-변수 a, b는 **LHS 탐색에 의해 가까운 스코프 내에 변수에 할당**
-
-scope1 함수가 실행될때 scope1 스코프 내에는 a 라는 변수가 없으므로 글로벌 스코프에서 변수 a를 찾기 시작함
-
-반대로 scope2 함수가 실행될 때 , scope2 스코프 내에는 b라는 변수가 있으므로 , 자신에 스코프에 있는 b의 값을 할당 
-
-
-4. console.log에서 각 변수를 참조
-
-![image4](https://t1.daumcdn.net/cfile/tistory/99637D505D26071E2A)
-
-scope1 함수의 console.log가 실행되면 RHS검색을 통해 a를 찾게됨 .
-하지만 scope1 스코프에서 변수를 찾지못하여 글로벌 스코프 영역에서 변수 a 를 찾음
-
-글로벌 스코프에서 실행된 console.log는 당연하게도 자신의 스코프에있는 변수 a를 찾음
-
-## 4. var 와 let의 스코프차이
-
-var : **function-scoped**
-let , const : **block-scoped**
-
-**함수 레벨 스코프(Function-level scope)**
-함수 내에서 선언된 변수는 함수 내에서만 유효하며 함수 외부에서는 참조할 수 없다. 즉, 함수 내부에서 선언한 변수는 지역 변수이며 함수 외부에서 선언한 변수는 모두 전역 변수이다.
-
-**블록 레벨 스코프(Block-level scope)**
-모든 코드 블록(함수, if 문, for 문, while 문, try/catch 문 등) 내에서 선언된 변수는 코드 블록 내에서만 유효하며 코드 블록 외부에서는 참조할 수 없다. 즉, 코드 블록 내부에서 선언한 변수는 지역 변수이다.
-
+같은 이름의 지역변수와 전역변수가 동시에 정의되어 있다면 지역변수가 우선한다는것을 알 수 있다.
 
 ```js
-var foo = 123 // 전역변수 
-
-console.log(foo)   // 123 
-
-{
-    var foo = 456;  // 전역변수
+var vscope = 'global';
+function fscope() {
+    vscope = 'local';
+    alert('함수안' + vscope);   //local
 }
+fscope();
+alert('함수밖'+ vscope);    //local
+```
 
-console.log(foo); // 456
+함수 밖에서도 vscope의 값이 local인 이유는? 그것은 fscope 함수 안에 지역변수를 선언할 때
+
+var를 사용하지 않았기 때문이다. **var를 사용하지 않은 변수는 전역변수가 된다**
+
+전역변수는 사용하지 않는것이 좋다. 여러가지 이유로 그 값이 변할수 있기 때문이다
+
+그래서 변수를 선언할 때는 꼭 var를 붙이는것을 습관화 해야한다.
+
+전역변수를 사용하고자한다면 그것을 사용하는 이유를 명확히 알고 있을때 사용하자.
+
+## 2. 스코프의 필요성
+
+지역변수의 사용
+
+```js
+function a () {
+    var i = 0;
+}
+for(var i = 0; i < 5; i++){
+    a();
+    document.write(i);  //01234 
+}
 
 ```
 
-블록 레벨 스코프를 따르지 않는 var 키워드의 특성 상 , 코드 블록 내의 변수 foo는 전역 변수이다 그런데 이미 전역변수 foo가 선언되어 있다.
-
-var 키워드를 사용하여 선언한 변수는 중복 선언이 허용되므로 위의 코드는 문제가없다
-
-단 foo는 전역변수이기 때문에 전역에서 선언된 전역변수 foo의 값 123을 456으로 재할당
-
-ES6는 **블록레벨 스코프**를 따르는 변수를 선언하기 위해 let 키워드를 제공함
+전역변수의 사용
 
 ```js
-let foo = 123;  // 전역변수
-
-{
-    let foo = 456;
-    let bar = 456;
+function a () {
+    i = 0;
 }
-console.log(foo) // 123
-console.log(bar) // // ReferenceError: bar is not defined
+for(var i = 0; i< 5; i++){
+    a();
+    document.write(i);
+}
+//무한반복됨 i가 계속 0으로 초기화가되서
+```
 
-``` 
+## 3. 언제 전역변수를 사용할까?
 
-let 키워드로 선언된 변수는 블록 레벨 스코프를 따른다. 위 예제에서 코드 블록 내에 선언된 변수 foo는 블록 레벨 스코프를 갖는 지역 변수이다. 전역에서 선언된 변수 foo와는 다른 별개의 변수이다. 또한 변수 bar도 블록 레벨 스코프를 갖는 지역 변수이다. 따라서 전역에서는 변수 bar를 참조할 수 없다.
+전역변수의 사용
+
+
+```js
+var MYAPP = {}      //전역변수 
+MYAPP.calculator = {
+    'left' : null,
+    'right' : null  
+}
+MYAPP.coordinate = {
+    'left' : null,
+    'right' : null
+}
+MYAPP.calculator.left = 10;
+MYAPP.calculator.right = 20;
+function sum() {
+    return MYAPP.calculator.left + MYAPP.calculator.right;
+}
+
+document.write(sum()); // 30
+```
+
+전역변수'하나'를 생성하고 그 전역변수 객체 안에다가 다른변수를 넣을떄 변수이름 충돌할 가능성이 낮아지게된다
+
+
+### 3-1 전역변수 '하나'조차도 사용하고싶지 않을때
+
+**익명함수 : 함수를 정의하고 바로호출하는 기법**
+
+```js
+(function(){
+    var MYAPP = {}      // 지역변수
+MYAPP.calculator = {
+    'left' : null,
+    'right' : null  
+}
+MYAPP.coordinate = {
+    'left' : null,
+    'right' : null
+}
+MYAPP.calculator.left = 10;
+MYAPP.calculator.right = 20;
+function sum() {
+    return MYAPP.calculator.left + MYAPP.calculator.right;
+}
+
+document.write(sum()); // 30
+}())
+
+```
+전체를 function으로감싸주고 > 맨뒤에 () 붙이면 바로호출이란의미 > 또 그것을 괄호로 감싸주면
+
+
+## 4. 스코프의 대상 (함수)
+
+
+```js
+for(var i = 0; i < 1; i++){
+    var name = 'cording everybody';
+}
+alert(name);    // cording everybody
+
+```
+
+**자바스크립트의 지역변수는 함수에서만 유효**
+
+## 5. 정적 유효범위
+
+자바스크립트는 **함수가 선언된 시점에서의 유효범위**를 갖는다. 
+이러한 유효범위의 방식을 정적 유효범위(static scoping), 혹은 렉시컬(lexical scoping)이라고 한다. 
+
+```js
+var i = 5;
+
+function a() {
+    var i = 10;
+    b();
+}
+
+function b() {
+    document.write(i);  //지역변수를 찾고 없으면 전역변수를 찾게됨
+}
+
+a();    
+```
+
+실행결과는 5이다.
