@@ -51,7 +51,7 @@ ReactDOM.render(element, document.getElementById('root'))
 컴포넌트는 자바스크립트 함수와 유사 "props"라고 하는 임의의 입력을 받은 후 ,
 화면에 어떻게 표시되는지를 기술하는 엘리먼트를 반환
 
-## 3-1. 함수 컴포넌트와 클래스 컴포넌트
+### 3-1. 함수 컴포넌트와 클래스 컴포넌트
 
 컴포넌트를 정의하는 가장 간단한 방법은 자바스크립트 함수를 작성하는것
 
@@ -76,3 +76,170 @@ class Welcome extends React.Component {
 ```
 
 React의 관점에서 볼 때 위 두 가지 유형의 컴포넌트는 동일합니다.
+
+### 3-2. 컴포넌트 렌더링
+
+이전까지는 React엘리먼트를 DOM태그로 나타냈음
+
+```js
+const element = <div />;
+```
+
+React 엘리먼트는 사용자 정의 컴포넌트로도 나타낼 수 있습니다.
+
+```js
+const element = <Welcome name="Sara" />;
+```
+
+React가 사용자 정의 컴포넌트로 작성한 엘리먼트를 발견하면 JSX어트리뷰트를 해당 컴퓨터에 단일 객체로 전달함. 이 객체를 **"props"** 라고 함
+
+"Hello, Sara" 렌더링하기
+
+```js
+function Welcome(props) {
+    return <h1>Hello, {props.name}</h1>;
+}
+
+const element = <Welcome name="Sara" />;
+ReactDOM.render(
+    element,
+    document.getElementById('root')
+);
+```
+위의 예시에서는 다음과 같은 일들이 일어난다
+1. <Welcome name="Sara" /> 엘리먼트로 ReactDOM.render() 호출
+2. React {name : 'Sara'}를 props를 하여 Welecome 컴포넌트를 호출
+3. Welcome 컴포넌트는 결과적으로 <h1>Hello , Sara</h1> 엘리먼트를 반환
+4. ReactDOM은 <h1>Hello , Sara</h1> 엘리먼트와 일치하도록 DOM을 효율적으로 업데이트
+
+**주의  : 컴포넌트의 이름은 항상 대문자로 시작** 
+React 는 소문자로 시작하는 컴포넌트를 DOM태그로 처리 , 
+예를 들어 <div /> 는 HTML div 태그를 나타내지만 <Welcome />은 컴포넌트를 나타내며
+범위 안에 Welcome 이 있어야함
+
+### 3-3. 컴포넌트 합성
+
+예를 들어 Welcome을 여러번 렌더링하는 App 컴포넌트를 만들수 있다
+
+```js
+function Welcome(props) {
+    return <h1>Hello, {props.name}</h1>;
+}
+
+function App() {
+    return (
+        <div>  
+            <Welcome name="Sara" />
+            <Welcome name="Cahal" />
+            <Welcome name="Edite" />
+        </div>  
+    )
+}
+
+ReactDOM.render(
+    <App />
+    document.getElementById('root');
+);
+```
+
+### 3-4. 컴포넌트 추출
+
+```js
+function Comment(props) {
+    return (
+        <div className="Comment">
+            <div className="UserInfo">
+                <img className="Avatar" 
+                    src={props.author.avatarUrl}
+                    alt={props.author.name}
+                />
+                <div className="UserInfo-name">
+                    {props.author.name}
+                </div>
+            </div>
+            <div className="Comment-text">
+                {props.text}
+            </div>
+            <div className="Comment-date">
+                {formatDate(props.date)}
+            </div>
+        </div>
+    )
+}
+```
+이 컴포넌트는 **author**(객체) , **text**(문자열) 및 **date**(날짜)를 props로 받은 후 소셜 미디어 웹사이트의 코멘트를 나타냅니다.
+
+이 컴포넌트는 구성요소들이 모두 중첩구조로 이루어져 있어서 변경하기 어려울 수 있으며 
+각 구성요소를 개별적으로 재사용하기도 힘듬.
+이컴포넌트에서 몇가지 컴포넌트를 추출하면
+
+먼저 Avatar추출
+
+```js
+function Avatar(props) {
+    return (
+        <img className="Avatar"
+        src={props.user.avatarurl}
+        alt={props.user.name}/>
+    );
+}
+```
+
+Comment
+```js
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <Avatar user={props.author} />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+```
+
+다음으로 UserInfo 추출
+
+```js
+function UserInfo(props){
+    return (
+        <div className="UserInfo">
+            <Avatar user={props.user} />
+            <div className="UserInfo-name">
+                {props.user.name}
+            </div>
+        </div>
+    )
+}
+
+```
+
+Comment
+
+```js
+function Comment(props) {
+    return (
+        <div className="Commnet">
+            <UserInfo user={props.author} />
+            <div className="Comment-text">
+                {props.text}
+            </div>
+            <div classNmae="Comment-date">
+                {formatDate(props.date)}
+            </div>
+        </div>
+    );
+}
+
+
+```
