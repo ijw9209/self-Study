@@ -15,7 +15,7 @@
     - JOB Scheduler (=Long-term-Scheduler) 
         >> 메모리가 비워져야 결정하기때문에 시간이 길다
 ## 4. Ready Que
-    = CPU서비스를 받기 위한 줄
+    - CPU서비스를 받기 위한 줄
     - CPU Scheduler (=short-term-Scheduler) 
         >> 서비스를 빨리 결정해야함 시간이 짧다.
 ## 5. Device Que
@@ -24,4 +24,12 @@
 ## 6. 멀티프로그래밍 : 메인메모리에 여러개의 프로세스가 올라와 있는 상태
     - I/O-bound(프로세스가 입출력관련작업만함 ex)워드프로세서 ) vs CPU-bound process(계산을 많이하는 프로그램 ex)일기예보 슈퍼컴퓨터)
     - Medium-term scheduler 어느 프로그램을 몰아낼것인가 결정 시간이 중간정도
-    - 대기하는 프로세스를 Swapping(이동)(SWAP OUT,SWAP IN,SWAP DEVICE)
+    - 대기하는 프로세스를 Backing Store로 Swapping(이동)(SWAP OUT,SWAP IN,SWAP DEVICE)
+    - Degree of multiprogramming : 프로그램이 몇개 올라와있는가
+
+## 7. 용어
+    - 하드디스크 : 파일시스템 / Backing-store (후면저장장치)
+    - Context switch : cpu가 하는일의 변경(p1 > p2)
+    - CPU Scheduling : 어느 놈을 실행할것인가 결정
+    - Dispatcher : context를 저장하고 restore 해줌
+    - Context Switching OverHead : dispatcher가 자주발생시 오버헤드 발생
