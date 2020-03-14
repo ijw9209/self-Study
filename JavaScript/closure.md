@@ -125,10 +125,11 @@ for(var index in arr) {
 // 결과 0 1 2 3 4
 ```
 
-
+결론 : 간단히말해서 외부함수가 소멸되어도 외부함수의 지역변수를 내부함수가 소멸될때까지 사용할수 있는것이 **클로저**다
 
 
 클로저 참고
++ [https://opentutorials.org/course/743/6544](https://opentutorials.org/course/743/6544)
 + [https://developer.mozilla.org/ko/docs/JavaScript/Guide/Closures](https://developer.mozilla.org/ko/docs/JavaScript/Guide/Closures)
 + [http://ejohn.org/apps/learn/#48](http://ejohn.org/apps/learn/#48)
 + [http://blog.javarouka.me/2012/01/javascripts-closure.html](http://blog.javarouka.me/2012/01/javascripts-closure.html)
