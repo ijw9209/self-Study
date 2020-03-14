@@ -1,7 +1,7 @@
 # CPU 스케쥴링
 
 ## CPU 스케쥴링
-- Reedy Que안에 혹은 메인메모리에 여러개의 프로세스가 줄서서 기다리고 있을때 현재 실행하는게 끝나면 그다음 어느프로세스를 선택하고 결정
+- Reedy Que안에 혹은 메인메모리에 여러개의 프로세스가 줄서서 기다리고 있을때 CPU의 서비스를 기다림(현재 실행하는게 끝나면 그다음 어느프로세스를 선택하고 결정)
 
 + Preemptive vs Non-preemptive(선점 vs 비선점)
     - Preemptive(선점) : CPU가 어떤 프로세스를 실행하고잇는데 강제로 쫒아내고 새로운것이 들어갈수 있는방식(응급환자)
@@ -15,6 +15,7 @@
     - Response time (응답시간) : 인터렉티브 시스템에서 중요함,처음응답이 나올때까지 중요한시간
 
 ## CPU Scheduling Algorithms
+
 + First-Come, First-Served (FCFS) : 먼저온놈 먼저서비스
     - Simple & Fair (간단, 공평)
     - 단점 : 평균대기시간이김, 짧은놈부터 실행하는게 오히려 속도가 더빠름    
@@ -34,7 +35,55 @@ Gantt Chart
 
 + Shortest-Job-First (SJF) : 작업이 짧은놈을 먼저서비스
     - Shortest-Remaining-Time-First
-+ Priority : 우선순위가 높은놈을 먼저 서비스
+    - 대기시간을 줄이는데 가장좋은 방법
+    - 단점 : 비 현실적(예측을 할수없음)
+    - Preemptive or Non-preemptive(선점 or 비선점)
+    - Example: AWT(Average Waiting Time) = (3+16+9+0)/4 = 7 msec
+            cf. 10.25 msec (FCFS)
+
+|Process|Burst Time (msec)|
+|----|-----|        
+|p1|6|
+|p2|8|
+|p3|7|
+|P4|3|
+
+
+
++ Priority : 우선순위대로 먼저 서비스
+    - Low number represents high priority in general (Unix/Linux)
+    - 우선순위 정하는기준(내부 , 외부)
+    - 내부 : time limit,Memory requirement ,I/O to CPU burst
+    - 외부 : amount of funds being paid, political factors
+    - 단점 : (기아,굶어죽음) 우선순위가 낮은 프로그램은 계속기다림
+    - 해결방법 : (aging)오래기다릴수록 우선순위를 올려줌
+    - AWT = (6+0+16+18+1) / 5 = 8.2 msec 
+
+|Process|Burst Time (msec)|Priority|
+|----|-----|-----|        
+|p1|10|3|
+|p2|1|1|
+|p3|2|4|
+|P4|1|5|
+|P5|5|2|
+
+
 + Round-Robin (RR) : 돌면서 순서대로 서비스
+    - 일정시간이 기준으로 프로세스 변경 
+    - 타임퀀텀(일정시간)이 무한대로돌면 FCFS와 동일
+    - 타임퀀텀(일정시간)이 0에 수렴하면 오버헤드 발생
+    - Time-sharing system (시분할/시공유 시스템)
+    - Time quantum 시간양자(=Time slice)
+    - Preemptive
+    - Example AWT = (6+4+7)/3 = 5.66 msec
+    
+Time Quantum = 4msec
+
+|Process|Burst Time (msec)|
+|----|-----|        
+|p1|24|
+|p2|3|
+|p3|3|
+
 + Multilevel Queue : 큐를 여러개
 + Multilevel Feedback Queue : 큐를 여러개
