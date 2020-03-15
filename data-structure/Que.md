@@ -111,7 +111,7 @@
 
 큐는 순서대로 처리해야 하는 작업을 임시로 저장해두는 **버퍼(Buffer)**로서 많이사용
 
-출처 : 
+참조문서 : 
 
 + [https://helloworldjavascript.net/pages/282-data-structures.html](https://helloworldjavascript.net/pages/282-data-structures.html)
 + [http://blog.naver.com/PostView.nhn?blogId=javaking75&logNo=220226682161&parentCategoryNo=71&categoryNo=&viewDate=&isShowPopularPosts=true&from=search](http://blog.naver.com/PostView.nhn?blogId=javaking75&logNo=220226682161&parentCategoryNo=71&categoryNo=&viewDate=&isShowPopularPosts=true&from=search)
