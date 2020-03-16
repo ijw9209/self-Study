@@ -9,7 +9,7 @@
 + 데이터를 집어넣는 enqueue , 데이터를 추출하는 dequeue 등의 작업을 할 수 있다.
 
 
-![image](./queue.jpg)
+![image](https://ww.namu.la/s/b7785ff70f623fedbcae126015a3ae0a18b2f3a785bdd691d803aad2b10aee91f7b3fc438aadd3676cb84b9608ac18c4ce4dcc9a35eed34a61a2ffffff9b56eb7cdd94544cc1d79b7d06c6eb1c90a138645f91da866fe6567a4a2647f2f6553c)
 
 
 |ADT|설명|
