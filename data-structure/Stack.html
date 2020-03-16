@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //스택 생성자 함수
+    function Stack() {
+        this.dataStore = []; //스택요소를 저장하는 배열
+        this.top = 0;
+        this.push = push;
+        this.pop = pop;
+        this.peek = peek;
+        this.clear = clear;
+        this.length = length;
+    }
+
+
+    //push
+    function push(element) {
+        this.dataStore[this.top++] = element;
+        // 현재 top위치의 새요소를 추가한다음 top증가
+    }
+
+    //pop
+    function pop() {
+        return this.dataStore[--this.top];
+        //스택의 탑위치에 있는 요소를 반환하고 top변수를 감소
+    }
+
+    //peek
+    function peek() {
+        return this.dataStore[this.top - 1];
+    }
+
+    //length
+    function length() {
+        return this.top;
+    }
+
+    //clear
+    function clear() {
+        this.top = 0;
+        // top 변수를 0으로 설정하면 스택전체 요소가 삭제
+    }
+
+    //구현 테스트
+    var s = new Stack();
+    s.push("하나");
+    s.push("둘");
+    s.push("셋");
+    console.log("length" + s.length()); //length 3
+    console.log(s.peek());  // 셋
+    s.pop();
+    console.log(s.peek());  // 둘
+
+</script>
+
+</html>
