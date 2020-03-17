@@ -65,3 +65,4 @@ wrapper(); //zero
 
 무슨짓을 해도 log함수가 한 번 선언된 이상, 전역변수를 가리키게 되어있는 name변수가 다른걸 가리키게 할 수 없다. 유일한 방법은 아까처럼 전역변수를 다른 값으로 바꾸는것.
 
++ [https://www.zerocho.com/category/Javascript](https://www.zerocho.com/category/Javascript/post/5740531574288ebc5f2ba97e)
