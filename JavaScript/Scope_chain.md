@@ -24,45 +24,41 @@ inner 함수는 name변수를 찾기위해 자기자신의 스코프에서 찾�
 
 ## 렉시컬 스코핑(lexical scoping)
 
-**스코프**는 함수를 호출할 때가 아니라 **선언**할때 생긴다. 
-정적 스코프라고도 불린다. 
+**렉시컬 스코프는 함수를 어디서 호출하는지가 아니라 어디에 선언했는지에 따라 결정**
 
 ```js
-var name = 'zero';
-function log(){
-    console.log(name);
+var  x = 'global';
+
+function foo() {
+    var x = 'local';
+    bar();
 }
 
-function wrapper(){
-    name = 'nero';
-    log();
+function bar() {
+    console.log(x);
 }
-wrapper();      //nero
+
+foo();  //global
+bar();  //global
 
 ```
 
+위 예제의 실행 결과는 함수 bar의 상위 스코프가 무엇인지따라 결정.
+첫번째는 함수를 어디서 **호출** 하였는지따라 상위 스코프를 결정하는것이다
+첫번째 방식으로 함수의 상위 스코프를 결정한다면 함수 bar의 상위 스코프는 함수 foo의 전역일 것이다
 
-```js
-var name = 'zero';
-function log() {
-    console.log(name);
-}
+두번째는 함수를 어디서 **선언**하였는지에 따라 상위스코프를 결정,
+두번째 방식으로 함수의 스코프를 결정한다면 함수 bar의 스코프는 전역일것이다
 
-function wrapper(){
-    var name = 'nero';
-    log();
-}
+프로그래밍 언어는 이 두가지 방식중 하나의 방식으로 함수의 상위 스코프를 결정한다.
+첫번째 방식을 **동적스코프** 두번째 방식을 **랙시컬스코프** 또는 **정적 스코프**라 한다.
+자바스크립트를 비롯한 대부분의 프로그래밍 언어는 렉시컬 스코프를 따른다.
 
-wrapper(); //zero
+**렉시컬 스코프는 함수를 어디서 호출하였는지가 아니라 어디에 선언하였는지에 따라 결정된다**
+자바스크립트는  렉시컬 스코프를 따르므로 함수를 선언한 시점에 상위 스코프가 결정된다.
+함수를 어디에서 호출하였는지는 스코프결정에 아무런 의미를 주지않는다. 위 예제의 함수 bar는 전역에 설정되었다. 따라서 함수 bar의 상위스코프는 전역스코프이고 위 예제는 전역변수 x의 값 global을 두번출력한다.
 
-```
-
-스코프는 함수를 **선언**할때 생긴다 log안의 name은 wrapper()안의 지역변수 name이 아니라. 전역변수 name을 가리키고있다. 이런것을 **lexical scopeing**이라고 한다.
-직역하면 어휘적 범위이다.
-
-위의 두번째 예제는 함수를 처음 선언하는 순간, 함수 내부의 변수는 자기 스코프로부터 가장 가까운곳(상위 범위에서)에 있는 변수를 계속 참조.
-위의 예시에서는 log 함수안의 name변수는 선언시 가장 가까운 전역변수 name을 참조하게 된다. 그래서 wrapper()안에서 log를 호출해도 지역변수 name='nero'를 참조하는 게 아니라 그대로 전역변수 name의 값인 zero가 나오는 겁니다.
-
-무슨짓을 해도 log함수가 한 번 선언된 이상, 전역변수를 가리키게 되어있는 name변수가 다른걸 가리키게 할 수 없다. 유일한 방법은 아까처럼 전역변수를 다른 값으로 바꾸는것.
 
 + [https://www.zerocho.com/category/Javascript](https://www.zerocho.com/category/Javascript/post/5740531574288ebc5f2ba97e)
+
++ [https://poiemaweb.com/js-scope](https://poiemaweb.com/js-scope)
