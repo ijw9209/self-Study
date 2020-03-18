@@ -27,12 +27,15 @@
     - **맥이 빠른시간간격으로 스위칭된다.** => 여러맥이 동시실행되는것처럼 보임
     - 예) Web browser (화면 출력 쓰레드 + 데이터 읽어오는 쓰레드)
     - 예) Word processor (화면 출력 쓰레드 + 키보드 입력받는 쓰레드 + 철자/문법 오류확인쓰레드)
+
 + Context Switch되는 단위가 쓰레드단위다.
+
 + 쓰레드 구조
     - 프로세스의 메모리 공간 공유(code, data)
     - 프로세스의 자원 공유(file, i/o)
     - 비공유: 개별적인 PC,SP,registers , **stack**
     - 하나의 프로그램은 code,data, stack 3가지로 구성
+
 + 자바쓰레드
     - 모든 프로그램은 처음부터 1개의 쓰레드는 갖고 있다 (main)   
     - 주요 메소드(java.lang.Thread)
@@ -40,6 +43,7 @@
         * void start() // 쓰레드 시작 요청
         * void join() // 쓰레드가 마치기를 기다림
         * static void sleep() // 쓰레드 멈추기
+
 + 프로세스 동기화
     - Independent Process : 독립적인 프로세스.다른 프로세스에 영향을 미치지않음
     - Cooperating Process : 협력적인 프로세스.다른 프로세스에 대해서 영향을 미치거나 받음
@@ -49,3 +53,31 @@
     - EX)은행계좌문제 
         * 부모님은 은행계좌에 입금; 자녀는 출금
         * 입금(deposit)과 출금(withdraw) 은 독립적으로 일어난다.
+        * 입 출금 동작에서 공통변수에대해 동시에 업데이트하면 문제가생김 **(임계구역문제)**
+
++ 임계구역 문제
+    - 다중쓰레드의 시스템에서 일어난다.
+    - 공통적으로 사용(DB , File등)하는 업데이트하는구간 => Critical section
+    - 해결책
+        * Mutual exclusion (상호베타) : 공통변수에 한 쓰레드만 진입
+        * Progress (진행) : 진입 결정은 유한시간내
+        * Bounded waiting (유한대기): 어느 쓰레드라도 유한 시간 내
+
++ 프로세스/쓰레드 동기화
+    - 임계구역 문제 해결(틀린 결과가 나오지 않도록)
+    - 프로세스 실행순서 제어(원하는대로)
+
+
++ O/S가 하는일중 Process Management (cpu 스케쥴링 , 동기화)가 중요하다.
+
+
+## 동기화 도구
+
++ 세마포(Semaphores)
+    - 동기화 문제해결을위한 소프트웨어 툴
+    - 내부구조 : 정수형 변수 + 두개의 동작(P, V)
+    - 동작 : P: Proberen (test) → **acquire()** , V: Verhogen (increment) → **release()**
+    - Ready Que > cpu > IO QUEUE> Ready Que > cpu >terminate
+    - 세마포도 IO처럼 큐를 가지고 있으며, 조건을 만족하면 세마포 큐에 넣어줘서 해당 쓰레드가 못하게 블락한다.
+    - 일반적사용 
+        * Mutual exclusion : acquire(),release()를 이용하여 공통된 자원에서 하나의 쓰레드만 작동하게 한다.
