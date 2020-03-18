@@ -79,5 +79,22 @@
     - 동작 : P: Proberen (test) → **acquire()** , V: Verhogen (increment) → **release()**
     - Ready Que > cpu > IO QUEUE> Ready Que > cpu >terminate
     - 세마포도 IO처럼 큐를 가지고 있으며, 조건을 만족하면 세마포 큐에 넣어줘서 해당 쓰레드가 못하게 블락한다.
+    
+```java
+    void acquire() {
+    value--;
+    if (value < 0) {
+    add this process/thread to list;
+    block;
+        }
+    }
+    void release() {
+    value++;
+    if (value <= 0) {
+    remove a process P from list;
+    wakeup P;
+        }
+    }
+```
     - 일반적사용 
         * Mutual exclusion : acquire(),release()를 이용하여 공통된 자원에서 하나의 쓰레드만 작동하게 한다.
