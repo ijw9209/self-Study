@@ -96,5 +96,5 @@
         }
     }
 ```
-    - 일반적사용 
-        * Mutual exclusion : acquire(),release()를 이용하여 공통된 자원에서 하나의 쓰레드만 작동하게 한다.
+- 일반적사용 
+    * Mutual exclusion : acquire(),release()를 이용하여 공통된 자원에서 하나의 쓰레드만 작동하게 한다.
