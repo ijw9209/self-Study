@@ -18,10 +18,41 @@ react-redux는 모든 정보는 redux가 가지고 있다. store에 요청을 �
 ![image1](https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/module/4078/11034.png)
 
 
++ store : 은행이라고 비유 , 정보가 저장되는 곳
+ - state : state실제 정보가 저장됨. 절대로 state에 직접 접속하면안됨.
+ - reducer : 함수를 만들어주어서 공급해줘야됨 , state를 입력값으로 받고 action을 참조해서 새로운 state값을 만들어서 리턴하는 새로운 가공자
+ 
+```js
+function reducer(oldState , action) {
+    //....
+}
+var store = Redux.createStroe(reducer);
+```
+ - getState : state값을 가져옴
+
+```js
+function render() {
+                //state값을 가져옴
+var state = store.getState();
+//...
+document.querySelector('#app').innerHTML = <h1>WEB</h1>
+}
+```
+ - subscribe : state값이 바뀔때마다 render함수를 호출하여 UI가 새롭개 갱신
+```js 
+store.subscribe(render);
+```
++ render : UI를 만들어주는 역할을하는 우리가짜는 코드
 
 
-
-
+ - dispatch : reducer를 호출(두개의 값을 전달 현재state , action data(객체))를 전달하여 state값을 바꿈, 작업이 끝난뒤 subscribe를 이용해 render함수를 호출
+```js
+<form onSubmit="
+                    //여기있는 객체가 action >> dispatch에게 전달
+    store.dispatch({type:'create',payload:{title:title ,desc:desc })
+">
+    
+ 
 
 
 
