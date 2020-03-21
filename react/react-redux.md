@@ -52,9 +52,9 @@ store.subscribe(render);
     store.dispatch({type:'create',payload:{title:title ,desc:desc })
 ">
     
- 
-
-
+내가생각하는 redux를 사용하는 이유 : 
+기존의 react구조는 부모와 자식컴포넌트들간의 연결이 되어있어야하는데
+redux는 store라는 저장소로 연결되어있어서 코드의 복잡성이 낮아지고 , 중앙에서 관리하여 유지보수가 용이하게만듬
 
 
 
