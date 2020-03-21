@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"></script>
+</head>
+
+<body>
+    <style>
+        .container {
+            border: 5px solid black;
+            padding: 10px;
+        }
+    </style>
+    <div id="red"></div>
+    <div id="blue"></div>
+    <div id="green"></div>
+    <script>
+        //reducer를 통해 state값을 만들어줘야하는데 기존state값이 
+        //undefiend라면 초기화를 위해 최초로실행되는 reducer의 대한 호출이기때문에
+        //원하는 초기값을 리턴해주면 store에 초기값이 지정됨
+
+        //state값 변경은 action이란것을 만들어야됨 dispatch에게 제출하면 reducer에게제출하고
+        //이전에 state값과 action의 값을 동시에 줌
+        //reducer 함수가 분석해서 최종적인 값을 줌
+
+        //state를 직접변경하지말고 state를 복사해서 변경해야 undo, redo 이런것들을 할 수 있다.
+
+        //객체를 복제할 때는  Obejct.assign({빈객체}, {복제할 속성을 가진객체})이용
+        //Object.assign({},{name:'egoing'} , {city:'seoul'});
+        function reducer(state, action) {
+            console.log(state, action);
+            if (state === undefined) {
+                return { color: 'yellow' }
+            }
+            var newState;
+            if (action.type === 'CHANGE_COLOR') {
+                newState = Object.assign({}, state, { color: action.color });
+            }
+            //애플리케이션 상태가 궁금하면 리듀서를 이용하면된다.
+            console.log(action.type, action, state, newState);
+            //복제한 결과 리턴
+            return newState;
+        }
+        var store = Redux.createStore(reducer,
+            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        );
+        function red() {
+            var state = store.getState();
+            document.querySelector('#red').innerHTML = `
+                <div class="container" id="component_red" style="background-color:${state.color}">
+                    <h1>red</h1>
+                    <input type="button" value="fire" onClick="
+                        store.dispatch({type:'CHANGE_COLOR' , color:'red'});
+                    "/>
+                </div>
+            `;
+        }
+        //state값이 바뀔때마다 red함수가 호출
+        store.subscribe(red);
+        red();
+
+        function blue() {
+            var state = store.getState();
+            document.querySelector('#blue').innerHTML = `
+                <div class="container" id="component_blue" style="background-color:${state.color}">
+                    <h1>blue</h1>
+                    <input type="button" value="fire" onClick="
+                        store.dispatch({type:'CHANGE_COLOR' , color:'blue'});
+                    "/>
+                </div>
+            `;
+        }
+        //state값이 바뀔때마다 blue함수가 호출
+        store.subscribe(blue);
+        blue();
+
+        //state값이 바뀔때마다 , dispatch를 할때마다 
+        //red함수를 호출하게 하려면 subscribe에 render를 등록해야함
+
+        function green() {
+            var state = store.getState();
+            document.querySelector('#green').innerHTML = `
+                <div class="container" id="component_green" style="background-color:${state.color}">
+                    <h1>green</h1>
+                    <input type="button" value="fire" onClick="
+                        store.dispatch({type:'CHANGE_COLOR' , color:'green'});
+                    "/>
+                </div>
+            `;
+        }
+        //state값이 바뀔때마다 green함수가 호출
+        store.subscribe(green);
+        green();
+
+
+        //redux를 사용하는이유 : 기존의 react구조는 부모와 자식컴포넌트들간의 연결이 되어있어야하는데
+        //redux는 store라는 저장소로 연결되어있어서 코드의 복잡성이 낮아지고 , 
+        //중앙에서 관리하여 유지보수가 용이하게만듬
+    </script>
+</body>
+
+</html>
