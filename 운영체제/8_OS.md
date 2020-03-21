@@ -28,3 +28,6 @@
  - 세마포를 사용하여 busy-wait 회피
     * 생산자: empty.acquire() // # of permit = BUF_SIZE
     * 소비자: full.acquire() // # of permit = 0
+
+
+
