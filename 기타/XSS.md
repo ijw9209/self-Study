@@ -13,6 +13,40 @@ SQL injection과 함께 웹 상에서 가장 기초적인 취약점 공격 방�
 크로스 사이트 스크립팅은 자바스크립트를 사용하여 공격하는 경우가 많다. 공격방법이 단순하고 가장 기초적이지만, 많은 웹사이트들이 XSS에 대한 방어 조치를 해두지 않아 공격을 받는 경우가 많다. 여러 사용자가 접근 가능한 게시판 등의 코드를 삽입하는 경우도 많으며, 경우에 따라서 메일과 같은 매체를 통해 전파된다.
 
 
+## 공격법
+
+**스크립트 태그**
+
+방법 : 스크립트 태그로 자바스크립트 실행
+
+예제 
+```html
+<script>alert('XSS');</script>
+```
+
+**자바스크립트 태그**
+
+방법 : 링크 태그로 자바스크립트를 실행
+
+예제 :
+
+```html
+<a href="javascript:alert('XSS')">XSS</a>
+
+```
+
+**이벤트 속성**
+
+방법 : 이벤트 속성을 사용한다.
+
+예제 :
+
+```html
+<img src="#" onerror="alert('XSS')">
+```
+
+
+
 
 출처 
 + [https://swk3169.tistory.com/](https://swk3169.tistory.com/entry/WebHacking-XSSCross-Site-Scripting-%EA%B3%B5%EA%B2%A9%EC%9D%98-%EA%B0%9C%EC%9A%94%EC%99%80-%EC%8B%A4%EC%8A%B5)
