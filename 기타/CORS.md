@@ -93,3 +93,4 @@ app.use(cors(corsOptions)); // config 추가
 + [https://velog.io/@wlsdud2194/cors](https://velog.io/@wlsdud2194/cors)
 + [MDN동일출처정책](https://developer.mozilla.org/ko/docs/Web/Security/Same-origin_policy)
 + [MDN_CROS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS)
++ [https://velog.io/@suseodd/](https://velog.io/@suseodd/HTTP-%EC%A0%91%EA%B7%BC-%EC%A0%9C%EC%96%B4-CORS-%EB%9E%80)
