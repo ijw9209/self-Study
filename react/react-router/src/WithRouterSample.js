@@ -1,6 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
+
+//withRouter HOC는 라우트 컴포넌트가 아닌곳에서 match , location , history를 사용해야 
+//할 때 사용한다
 const WithRouterSample = ({ location, match, history }) => {
     return (
         <div>
