@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    여기
+</body>
+<script>
+    // function increase(number, callback) {
+    //     setTimeout(() => {
+    //         const result = number + 10;
+    //         if (callback) {
+    //             callback(result);
+    //         }
+    //     }, 1000)
+    // }
+
+    // console.log('작업시작')
+    // increase(0, result => {
+    //     console.log(result);
+    //     increase(result, result => {
+    //         console.log(result);
+    //         increase(result, result => {
+    //             console.log(result);
+    //             increase(result, result => {
+    //                 console.log(result);
+    //                 console.log('작업완료')
+    //             })
+    //         })
+    //     })
+    // });
+
+    // function increase(number) {
+    //     const promise = new Promise((resolve, reject) => {
+    //         //resolve는 성공, reject는 실패
+    //         setTimeout(() => {
+    //             const result = number + 10;
+    //             if (result > 50) { //50보다 높으면 에러발생시키기
+    //                 const e = new Error('numberTooBig');
+    //                 return reject(e)
+    //             }
+    //             resolve(result);  //정상적인 상황에선 10 성공
+    //         }, 1000)
+    //     });
+    //     return promise;
+    // }
+
+    // increase(0)
+    //     .then(number => { //promise에서 resolve된 값은 .then을 통해 받아옴
+    //         console.log(number);
+    //         return increase(number);
+    //     })
+    //     .then(number => {   //또 then으로 처리가능
+    //         console.log(number);
+    //         return increase(number);
+    //     })
+    //     .then(number => {
+    //         console.log(number);
+    //         return increase(number);
+    //     })
+    //     .then(number => {
+    //         console.log(number);
+    //         return increase(number);
+    //     })
+    //     .then(number => {
+    //         console.log(number);
+    //         return increase(number);
+    //     })
+    //     .catch(e => {
+    //         //도중에 에러가 발생하였다면 .catch를 통해 알 수 있다.
+    //         console.log("에러" + e);
+    //     })
+
+    function increase(number) {
+        const promise = new Promise((resolve, reject) => {
+            //resolve 성공 , reject 실패
+            setTimeout(() => {
+                const result = number + 10;
+                if (result > 50) {   //50 보다 높으면 에러
+                    const e = new Error('Number too big');
+                    return reject(e);
+                }
+                resolve(result);
+            }, 1000)
+        });
+        return promise;
+    }
+
+    async function runTasks() {
+        try {  // try / catch 구문을 사용하여 에러를 처리 합니다.
+            let result = await increase(0);
+            console.log(result);
+            result = await increase(result);
+            console.log(result);
+            result = await increase(result);
+            console.log(result);
+            result = await increase(result);
+            console.log(result);
+            result = await increase(result);
+            console.log(result);
+            result = await increase(result);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    runTasks();
+</script>
+
+</html>
