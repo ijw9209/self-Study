@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import NewsList from './components/NewsList';
+import { Route } from 'react-router-dom';
+import NewsPage from './pages/NewsPage';
 
 class App extends Component {
+
   render() {
-    return <NewsList></NewsList>
+    return (
+      <>
+        <Route path="/:category?" component={NewsPage}></Route>
+      </>
+    );
   }
 }
 
