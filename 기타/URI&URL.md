@@ -5,6 +5,10 @@
 
 ## URL (Uniform Resource Locator)
 
+네트워크 상에 자원이 어디에 있는지를 알려주기 위한 규약이다. URL은 웹사이트 주소 뿐만 아니라 컴퓨터 네트워크 상의 자원을 모두 나타낼 수 있다.
+그 주소로 접속하려면 해당 URL에 맞는 프로토콜을 알아야한다. 또한 동일한 프로토콜로 접속해야한다.  
+
+
 + 자원
 + 예전에는 URL이 가르키는것은 파일소스
 + 요즘은 Rewrite등의 아파치,톰캣 등의 핸들러때문에 자원이라부름
@@ -38,3 +42,5 @@
 
 출처 : 
 + [https://velog.io/@pa324/](https://velog.io/@pa324/%EA%B0%9C%EB%B0%9C%EC%83%81%EC%8B%9D-URI-URL-%EC%B0%A8%EC%9D%B4-%EC%A0%95%EB%A6%AC)
+
++ [https://hyunalee.tistory.com/2](https://hyunalee.tistory.com/2)
