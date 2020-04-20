@@ -68,3 +68,5 @@ function func() {
 func(); // 1 2 3 4
 ```
 
+출처 :
++ [https://github.com/baeharam/](https://github.com/baeharam/Must-Know-About-Frontend/blob/master/Notes/javascript/closure.md)
