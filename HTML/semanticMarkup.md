@@ -24,3 +24,7 @@
 + 단순한 `div`,`span` 으로 둘러싸인 요소들보다 코드를 볼 때 가독성이 좋다
 
 실무에서 시맨틱 마크업이 완벽하게 쓰이는 것은 이상적이긴 하지만, 이러한 특징들을 고려하여 웹사이트를 구성하는 것이 많은 측면에서 바람직하다.
+
+
+출처 : 
++ [https://github.com/baeharam/Must-Know-About-Frontend/](https://github.com/baeharam/Must-Know-About-Frontend/blob/master/Notes/html/semantic.md)
