@@ -61,3 +61,44 @@ module.exports = { printHelloWorld };
 ```
 
 그렇다면 왜 2가지를 설정해놓았을까? 그 이유는 `exports`는 항상 `module.exports`를 참조하기 때문에 `exports`를 사용하면 직접 `module.exports`를 수정하지 않고 객체의 멤버를 만들거나 수정하는 방식으로 사용한다. 따라서, `exports`에 어떤 값을 할당하거나 새로운 객체를 할당했다고 하더라도 결국 `require`는 `module.exports`를 리턴 받기 때문에 잠재적인 버그를 피할 수가 있다.
+
+
+### AMD(Asynchronous Module Definition)
+
+CommonJS 그룹에서 의견이 맞지 않아 나온 사람들이 만든 그룹으로 비동기 모듈에 대한 표준안을 다루는 그룹이다. CommonJS가 서버쪽에서 장점이 많은 반면에 AMD는 브라우저 쪽에서 더 큰 효과를 발휘한다. 브라우저에서는 다른 모듈이 다 로딩될때까지 기다릴 수 없기 때문에 비동기 모듈 로딩방식으로 구현을 해놓았다. 이 방식에서 사용하는 함수는 `define()`과 `require()`이며 AMD 스펙을 가장 잘 구현한 모듈로더는 RequireJS 이다. 한번 간단한 예시로 사용해보자. 
+
++ `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Document</title>
+</head>
+<body>
+  <script data-main="index.js" src="require.js"></script>
+</body>
+</html>
+
+```
+
+`require.js` 파일을 받아서 `<script>` 태그에 넣어주고 `data-main` 속성으로 `require.js` 가 로드된후에 실행할 자바스크립트 파일 경로를 넣어준다. 즉, `require.js`가 로드되자마자 `index.js`가 실행되는 구조이다.
+
++ `index.js`
+
+```js
+require.config({
+    baseUrl: '/',
+    paths: {
+        a: 'a',
+        b: 'b',
+    }
+});
+
+require(['a'], (a) => {
+    a.printA();
+});
+
+```
+
+모듈 a는 위와 같이 만들어져 있고 `define()`을 통해서 정의된다. 여기서도 `require()` 에서 의존성 모듈을 설정해준 것 처럼 콜백함수가 실행되기 전에 로드되어야 할 모듈들을 지정해줄 수 있다. 
