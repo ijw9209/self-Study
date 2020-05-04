@@ -101,4 +101,96 @@ require(['a'], (a) => {
 
 ```
 
+`require.config` 는 설정부분으로 기본 경로와 각 모듈에 해당하는 경로를 설정해준다. 그 다음 `require`를 통해서 첫번째 인자에 해당하는 모듈이 로드되었을 경우에 그걸 `a`로 받아서 `printA()` 함수를 호출하는 콜백함수를 실행
+
++ `a.js`
+
+```js
+define(() => {
+    return {
+        printA : () => console.log('a')
+    }
+});
+
+```
+
+
 모듈 a는 위와 같이 만들어져 있고 `define()`을 통해서 정의된다. 여기서도 `require()` 에서 의존성 모듈을 설정해준 것 처럼 콜백함수가 실행되기 전에 로드되어야 할 모듈들을 지정해줄 수 있다. 
+
+
+### UMD(Universal Module Definition)
+
+위에서 살펴본 바로, 모듈 구현방식이 CommonJS 와 AMD로 나뉘기때문에 그걸 통합하기 위한 하나의 패턴이라고 할 수 있다.
+[공식 UMD 소스코드](https://github.com/umdjs/umd/blob/master/templates/returnExports.js)를 살펴보면 아래와 같다.
+
+
+```js
+(function (root, factory) {
+    if(typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+  }
+}(typeof self !== 'undefined' ? self : this, function () {
+
+    // Just return a value to define the module export.
+    // This example returns an object, but the module
+    // can return a function as the exported value.
+    return {};
+}));
+
+```
+
+AMD, CommonJS , Browser 방식의 모듈을 지원하기 위한 것으로 확인하는 방식은 코드를 살펴보면 다음과 같다. 
+
++ AMD : `define()` 이 함수이고 `define.amd` 속성의 객체를 가지고 있다.
+
++ CommonJS: `module` 이 객체이고 `module.exports` 속성을 가지고 있다.
+
++ Browser : 따로 특이사항이 없다.
+
+통합하는 방식은 2개의 인자를 전달받는 함수를 실행하는 것으로 첫번째 인자는 Browser 쪽을 구현할 `root` 에 넘길 값으로  `undefined`이면 `this`로 아니라면 `self`, 즉 `window`로 설정한다. 그리고 2번째 인자로 빈 객체 리터럴을 리턴하는 함수를 보낸다. 이렇게되면 각각의 환경에서 모두 모듈개념을 사용할 수 있게 된다.
+
+
+### ES6(ES2015) 방식 
+
+`import` 와 `export` 구문을 사용하는 방식이다. 하지만 모든 브라우저가 지원하는 것이 아니기 때문에 Babel의 `@babel/plugin-transform-modules-commonjs` 를 통해 변환시켜 사용한다. 모듈 A,B가 있고 각각을 `export` 로 내보내는 방식과 그에 따라 어떻게 `import`로 불러오는지 살펴보자.
+
+
++ `moduleA.js`
+
+```js
+const A = () => {};
+export default A;
+
+```
+
++ `moduleB.js`
+
+```js
+export const B = () => {};
+
+```
+
++ `index.js`
+
+
+```js
+import A from 'moduleA';
+import { B } from 'moduleB';
+
+```
+
+여기서 눈 여겨봐야될 점은 `default`의 유무인데 `export`를 사용할 때는 **named export** 와 **default export**를 사용할 수 있다. 단, default export는 모듈 내에서 한번만 사용할 수 있고, named export는 여러번 사용할 수 있다는 것이다. 그렇게 default export로 내보내면 `import` 에선 내보낸 이름 그대로 바로 사용할 수 있지만, named export로 내보내면 `{}`로 묶어서 불러와야한다. 이것이 기본적인 사용법이고 별칭(alias)을 `as`로 주어서 다른 이름으로 사용할 수도 있고 `*` 와일드카드를 사용하여 한번에 불러오거나 내보낼 수도 있다. 이런 여러가지 변형기법의 사용은 
+[여기](https://velog.io/@doondoony/JavaScript-Module-System#-es6-modulesesm)를 참고하자.
+
+
+출처 : 
++ [https://github.com/baeharam/Must-Know-About-Frontend](https://github.com/baeharam/Must-Know-About-Frontend/blob/master/Notes/javascript/module.md)
