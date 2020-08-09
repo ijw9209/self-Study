@@ -1,11 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 // import Example from './Example';
 // import Counter from './Counter';
 // import Wrapper from './Wrapper';
 // import InputSample from './InputSample';
-import CreateUser from './CreateUser';
 import UserList from './UserList';
+import CreateUser from './CreateUser';
 
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
+}
 
 //react에서의 style 은 background-color 처럼 하이픈(-)이 존재하는 값은 camelCase형태로 네이밍해야함
 function App() {
@@ -15,16 +19,17 @@ function App() {
   });
 
   const { username, email } = inputs;
-  const onChange = e => {
-    const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
 
-    setInputs({
-      ...inputs,
-      [name]: value
-    });
-  }
+      setInputs({
+        ...inputs,
+        [name]: value
+      });
+    },
+    [inputs]
+  );
 
   // const name = 'react';
   // const style = {
@@ -72,22 +77,32 @@ function App() {
     nextId.current += 1;
   };
 
-  const onRemove = id => {
+  const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인것을 제거함
-    console.log(id);
-    console.log(users.filter(user => user.id !== id));
-
     setUsers(users.filter(user => user.id !== id));
-  }
-
-  const onToggle = id => {
-    setUsers(
-      users.map(user => user.id === id ?
-        { ...user, active: !user.active } : user))
-
-  }
-
+  },
+    [users]
+  );
+  const onToggle = useCallback(
+    id => {
+      setUsers(
+        users.map(user => user.id === id ?
+          { ...user, active: !user.active } : user
+        )
+      );
+    },
+    [users]
+  );
+  //useCallback은 useMemo를 기반으로 만들어짐, 다만 함수를 위해서 사용 할 때 더욱 편하게 해준것 뿐이다.
+  //아래와 같이 표현 할 수도 있다.
+  // const onToggle = useMemo(
+  //   () => () => {
+  //     /* ... */
+  //   },
+  //   [users]
+  // );
+  const count = useMemo(() => countActiveUsers(users), [users]);
   return (
     <>
       <CreateUser
@@ -97,6 +112,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성사용자 수 : {count}</div>
     </>
   );
 }
