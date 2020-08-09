@@ -2,7 +2,7 @@
 
 ## useMemo 
 
-useMemo는 **memoized(메모이제이션된)**값을 반환함.
+useMemo는 **memoized**(메모이제이션)된 값을 반환함.
 
 + memoized : 컴퓨터 프로그램이 동일한 계산을 반복 해야할때 이전에 계산한 값을 메모리에 저장함으로써 동일한 계산의 반복 수행을 제거하여 프로그램 실행 속도를 빠르게하는 기술. **메모아이제이션**이라고도 함.
 
@@ -116,3 +116,8 @@ export default App;
 ```
 
 `useMemo`의 첫번째 파라미터에는 어떻게 연산할지 정의하는 함수를 넣어주고 두번째 파라미턴에는 deps 배열을 넣어주면 되는데, 이 배열의 내용이 바뀌면 등록한 함수를 호출해서 값을 연산 해주고, 만약 내용이 바뀌지 않았다면 이전에 연산한 값을 재사용하게 됨. 
+
+출처
+
++ [react공식문서](https://ko.reactjs.org/docs/hooks-reference.html#usememo)
++ [https://react.vlpt.us/basic/17-useMemo.html](https://react.vlpt.us/basic/17-useMemo.html)
