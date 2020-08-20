@@ -19,17 +19,14 @@ function App() {
   });
 
   const { username, email } = inputs;
-  const onChange = useCallback(
-    e => {
-      const { name, value } = e.target;
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
 
-      setInputs({
-        ...inputs,
-        [name]: value
-      });
-    },
-    [inputs]
-  );
+    setInputs(inputs => ({
+      ...inputs,
+      [name]: value
+    }));
+  }, []);
 
   // const name = 'react';
   // const style = {
@@ -60,13 +57,13 @@ function App() {
   ]);
 
   const nextId = useRef(4);
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id: nextId.current,
       username,
       email
     };
-    setUsers([...users, user]);
+    setUsers(users => users.concat(user));
     //나중에 구현할 배열에 항목 추가하는 로직
     //useRef를 사용할때 파라미터를 넣어주면 이 값이 current 의 기본값이됨
     // 그리고 이 값을 수정할 때 는 current 값을 수정하면되고 조회할때는 current를 조회하면됨
@@ -75,25 +72,20 @@ function App() {
       email: ''
     })
     nextId.current += 1;
-  };
+  }, [username, email]);
 
   const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인것을 제거함
-    setUsers(users.filter(user => user.id !== id));
-  },
-    [users]
-  );
-  const onToggle = useCallback(
-    id => {
-      setUsers(
-        users.map(user => user.id === id ?
-          { ...user, active: !user.active } : user
-        )
-      );
-    },
-    [users]
-  );
+    setUsers(users => users.filter(user => user.id !== id));
+  }, []);
+  const onToggle = useCallback(id => {
+    setUsers(users =>
+      users.map(user =>
+        user.id === id ? { ...user, active: !user.active } : user
+      )
+    );
+  }, []);
   //useCallback은 useMemo를 기반으로 만들어짐, 다만 함수를 위해서 사용 할 때 더욱 편하게 해준것 뿐이다.
   //아래와 같이 표현 할 수도 있다.
   // const onToggle = useMemo(

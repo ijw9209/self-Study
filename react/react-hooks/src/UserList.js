@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 //class component 에서 componentDidMount와 componentDidwillUnmount를 hooks에서 구현하려면
 //useEffect를 사용하여 구현할 수 있다.
-function User({ user, onRemove, onToggle }) {
+const User = React.memo(function User({ user, onRemove, onToggle }) {
     useEffect(() => {
         console.log(user);
     });
@@ -13,7 +13,6 @@ function User({ user, onRemove, onToggle }) {
     // useEffect에 대한 뒷정리를 해준다고 이해하면 되는데 deps가 비어있는 경우에는 컴포넌트가 사라질때 cleanup 함수가 호출된다.
 
     //deps 값을 생략하면 컴포넌트가 리렌더링 될때마다 호출됨
-
     return (
         <div>
             <b
@@ -26,7 +25,7 @@ function User({ user, onRemove, onToggle }) {
             <button onClick={() => onRemove(user.id)}>삭제</button>
         </div>
     );
-}
+});
 
 function UserList({ users, onRemove, onToggle }) {
     return (
@@ -42,4 +41,4 @@ function UserList({ users, onRemove, onToggle }) {
     )
 }
 
-export default UserList;
+export default React.memo(UserList);
